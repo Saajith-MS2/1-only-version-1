@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1&ONLY Posters</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <h1>1&ONLY</h1>
+      </div>
+      <nav class="top-nav">
+        <a href="home.html">Home</a>
+        <div class="dropdown">
+          <button class="dropbtn">Categories</button>
+          <div class="dropdown-content">
+            <a href="#">Anime</a>
+            <a href="#">Automobile</a>
+            <a href="#">Fandom</a>
+            <a href="#">Motivation</a>
+            <a href="#">Tamil Movies</a>
+            <a href="#">Music & Artists</a>
+            <a href="#">Cricket</a>
+            <a href="#">Football</a>
+          </div>
+        </div>
+        <a href="custom.html">Custom</a>
+        <a href="cart.html" class="cart-link">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">18</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="marquee-banner">
+    <marquee behavior="scroll" direction="left">
+      🛒 Buy 10 A3 posters at ₹500 & get 4 FREE | Or get 10 for just ₹400! — Free delivery in PSGCAS — Pay on delivery available — Order now on WhatsApp 📱
+    </marquee>
+  </div>
+
+  <div class="special-offer">
+    <h2>Special Offer: Buy 10 Posters, Get 4 FREE!</h2>
+    <p>Order 10 posters of the same size (A3 or A4), and you’ll automatically get 4 extra posters FREE – no extra cost! You only pay for 10 posters. You get 14 posters total. Add more? Don’t worry – the offer still applies for every 14 posters (10 paid + 4 free). The 15th poster will be charged separately.</p>
+  </div>
+
+  <div class="product-grid">
+    <div class="product">
+      <img src="cars/1.jpg" alt="Poster 1">
+      <span class="sale-tag">Sale</span>
+      <p>Porsche Special Edition</p>
+      <select class="size-select">
+        <option value="A4">A4 - ₹40</option>
+        <option value="A3">A3 - ₹50</option>
+      </select>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="cars/11.jpg" alt="Poster 2">
+      <span class="sale-tag">Sale</span>
+      <p>Mercedes Benz Special Edition</p>
+      <select class="size-select">
+        <option value="A4">A4 - ₹40</option>
+        <option value="A3">A3 - ₹50</option>
+      </select>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <!-- Add more products as needed -->
+     <div class="product">
+      <img src="cars/1.jpg" alt="Poster 1">
+      <span class="sale-tag">Sale</span>
+      <p>Porsche Special Edition</p>
+      <select class="size-select">
+        <option value="A4">A4 - ₹40</option>
+        <option value="A3">A3 - ₹50</option>
+      </select>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="cars/11.jpg" alt="Poster 2">
+      <span class="sale-tag">Sale</span>
+      <p>Mercedes Benz Special Edition</p>
+      <select class="size-select">
+        <option value="A4">A4 - ₹40</option>
+        <option value="A3">A3 - ₹50</option>
+      </select>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div><div class="product">
+      <img src="cars/1.jpg" alt="Poster 1">
+      <span class="sale-tag">Sale</span>
+      <p>Porsche Special Edition</p>
+      <select class="size-select">
+        <option value="A4">A4 - ₹40</option>
+        <option value="A3">A3 - ₹50</option>
+      </select>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="cars/11.jpg" alt="Poster 2">
+      <span class="sale-tag">Sale</span>
+      <p>Mercedes Benz Special Edition</p>
+      <select class="size-select">
+        <option value="A4">A4 - ₹40</option>
+        <option value="A3">A3 - ₹50</option>
+      </select>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>  
+  </div>
+
+ <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h3>About Us</h3>
+        <p>Welcome to 1&ONLY Posters, where creativity meets artistry in the form of stunning customized and designer posters. We believe that every wall has a story to tell, and we are here to help you tell yours.</p>
+      </div>
+      <div class="footer-section quick-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Terms and Conditions</a></li>
+          <li><a href="#">Cancellation and Shipping Policy</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Affiliate</a></li>
+        </ul>
+      </div>
+      <div class="footer-section subscribe">
+       
+        
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function addToCart(id) {
+      const sizeSelect = document.querySelector(`.product:nth-child(${parseInt(id.replace('CO', ''))}) .size-select`);
+      const size = sizeSelect.value;
+      const price = size === "A3" ? 50 : 40;
+      const productElement = document.querySelector(`.product:nth-child(${parseInt(id.replace('CO', ''))})`);
+      const img = productElement.querySelector("img").src;
+      const title = productElement.querySelector("p").innerText;
+
+      const existingItem = cart.find(item => item.id === id && item.size === size);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ id, title, size, price, img, quantity: 1 });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.querySelectorAll("#cart-count-nav").forEach(el => {
+        el.textContent = totalItems;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartCount();
+
+      const burgerMenu = document.querySelector('.burger-menu');
+      const nav = document.querySelector('.top-nav');
+
+      burgerMenu.addEventListener('click', () => {
+        nav.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
