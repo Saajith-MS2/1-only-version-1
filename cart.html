@@ -1,424 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart - 1&ONLY Posters</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      background: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    .offer-layout {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: #121212;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 30px;
-    }
-    .offer-layout h2 {
-      text-align: center;
-      font-size: 1.4rem;
-    }
-    .poster-summary {
-      display: flex;
-      justify-content: space-between;
-      font-weight: bold;
-    }
-    .styled-select {
-      padding: 10px;
-      background: #1f1f1f;
-      color: white;
-      border-radius: 6px;
-      border: 1px solid #444;
-      width: 100%;
-    }
-    .styled-select option {
-      background: #1f1f1f;
-    }
-    .progress-track {
-      background: #444;
-      height: 10px;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background-color: #00c853;
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-    .cart-item {
-      display: flex;
-      background: #1a1a1a;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      overflow: hidden;
-    }
-    .cart-item-img {
-      width: 100px;
-      object-fit: cover;
-    }
-    .cart-details {
-      padding: 10px;
-    }
-    .cart-details p, .cart-details button {
-      margin: 5px 0;
-    }
-    .cart-details button {
-      background: red;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .billing-box {
-  background: #1f1f1f;
-  padding: 16px;
-  border-radius: 10px;
-  margin-top: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-.bill-row {
-  display: flex;
-  justify-content: space-between;
-  margin: 6px 0;
-  font-size: 1rem;
-  color: #ddd;
-}
-
-.grand-total {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #ffffff;
-}
-.toast {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: #1e1e1e;
-  color: #00e676;
-  padding: 15px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  transform: translateY(20px);
-  z-index: 9999;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-
-  </style>
 </head>
-<body>
-  
-  <div class="marquee-banner">
-    <marquee behavior="scroll" direction="left">
-      🛒 Buy 10 A4 posters at ₹400 & get 4 FREE | Or get 10 for just ₹300! — Buy 10 A3 posters at ₹500 & get 4 FREE | Or get 10 for just ₹400! — Free delivery in PSGCAS — Pay on delivery available — Order now on WhatsApp 📱
-    </marquee>
-  </div>
-
+<body class="cart-page">
   <header>
-    <img src="logo.png" alt="1&ONLY Logo" class="logo">
-    <nav>
-      <a href="home.html">Home</a>
-      <a href="#">Anime</a>
-      <a href="#">Automobile</a>
-      <a href="#">Fandom</a>
-      <a href="#">Motivation</a>
-      <a href="#">Tamil Movies</a>
-      <a href="#">Music & Artists</a>
-      <a href="#">Cricket</a>
-      <a href="#">Football</a>
-      <a href="#">Custom</a>
-      <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count-nav">0</span>)</a>
-    </nav>
+  <div class="logo">1&ONLY</div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="#">Categories</a>
+    <a href="#">Custom</a>
+    <a href="cart.html" class="cart-link">
+      🛒 Cart <span class="cart-count">0</span>
+    </a>
+  </nav>
+</header>
+
   </header>
-
-  <div class="hero">
-    <h1>Your Shopping Cart</h1>
-    <p class="tagline">Here's what you've picked so far</p>
-  </div>
-
   <div id="cart-items"></div>
-
   <section class="offer-layout">
     <h2>🎯 Special Offers</h2>
-
     <div class="poster-summary">
       <span>Total Posters: <span id="poster-count">0</span></span>
       <span><span id="offer-message">No offer selected.</span></span>
     </div>
-
     <div class="progress-track">
       <div class="progress-fill" id="offer-progress"></div>
     </div>
-
     <select id="offer-select" class="styled-select">
       <option value="">-- Select an offer --</option>
     </select>
-
     <div id="free-poster-message" style="color: #00c853;"></div>
-
     <div class="billing-box">
-  <div class="bill-row">
-    <span>Subtotal</span>
-    <span id="subtotal-value">₹0</span>
-  </div>
-  <div class="bill-row" id="discount-line" style="display: none;">
-    <span>Discount</span>
-    <span id="discount-value" style="color: #ff5252;">– ₹0</span>
-  </div>
-  <hr style="border-color: #333; margin: 10px 0;">
-  <div class="bill-row grand-total">
-    <span>Grand Total</span>
-    <span id="grand-total-value">₹0</span>
-  </div>
-</div>
-
+      <div class="bill-row">
+        <span>Subtotal</span>
+        <span id="subtotal-value">₹0</span>
+      </div>
+      <div class="bill-row" id="discount-line" style="display: none;">
+        <span>Discount</span>
+        <span id="discount-value" style="color: #ff5252;">– ₹0</span>
+      </div>
+      <hr style="border-color: #333; margin: 10px 0;">
+      <div class="bill-row grand-total">
+        <span>Grand Total</span>
+        <span id="grand-total-value">₹0</span>
+      </div>
+    </div>
   </section>
-
   <div style="text-align: right; margin-top: 20px;">
     <button onclick="checkoutCart()" style="padding: 10px 20px; background: #00c853; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer;">
       Checkout on WhatsApp
     </button>
   </div>
   <div id="toast" class="toast"></div>
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-function getQtyBySize(size) {
-  return cart.filter(item => item.size === size)
-             .reduce((sum, item) => sum + item.quantity, 0);
-}
-
-function updateOfferSection() {
-  const offerSelect = document.getElementById("offer-select");
-  const progress = document.getElementById("offer-progress");
-  const posterCount = document.getElementById("poster-count");
-  const offerMsg = document.getElementById("offer-message");
-  const freeMsg = document.getElementById("free-poster-message");
-  const subtotalBox = document.getElementById("subtotal-value");
-  const discountBox = document.getElementById("discount-line");
-  const discountValue = document.getElementById("discount-value");
-  const grandTotalBox = document.getElementById("grand-total-value");
-
-  let a4Qty = getQtyBySize("A4");
-  let a3Qty = getQtyBySize("A3");
-  let totalQty = a4Qty + a3Qty;
-  posterCount.textContent = totalQty;
-  const percent = Math.min((Math.max(a3Qty, a4Qty) / 10) * 100, 100);
-  progress.style.width = percent + "%";
-
-  const selectedOffer = offerSelect.value;
-  let subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  let grandTotal = subtotal;
-  let discount = 0;
-  let freeNote = "";
-
-  offerMsg.textContent = selectedOffer ? "" : "No offer selected.";
-
-  if (selectedOffer === "a4_discount" && a4Qty >= 10) {
-    discount = 100;
-    grandTotal = subtotal - discount;
-    offerMsg.textContent = "💸 ₹100 OFF on A4 posters applied.";
-    freeNote = "💸 ₹100 OFF on A4 posters";
-    showToast(freeNote);
-  } 
-  else if (selectedOffer === "a4_free" && a4Qty >= 14) {
-    const a4Items = cart.filter(item => item.size === "A4");
-    let a4Count = 0, a4Extra = 0;
-    for (let item of a4Items) {
-      if (a4Count + item.quantity <= 14) {
-        a4Count += item.quantity;
-      } else {
-        a4Extra += (a4Count + item.quantity - 14) * item.price;
-        a4Count = 14;
-      }
-    }
-    const others = cart.filter(item => item.size !== "A4")
-                       .reduce((sum, item) => sum + item.price * item.quantity, 0);
-    grandTotal = 400 + a4Extra + others;
-    freeNote = "🎁 14 A4 posters for ₹400 (4 FREE)";
-    offerMsg.textContent = "";
-    showToast(freeNote);
-  } 
-  else if (selectedOffer === "a3_discount" && a3Qty >= 10) {
-    discount = 100;
-    grandTotal = subtotal - discount;
-    offerMsg.textContent = "💸 ₹100 OFF on A3 posters applied.";
-    freeNote = "💸 ₹100 OFF on A3 posters";
-    showToast(freeNote);
-  } 
-  else if (selectedOffer === "a3_free" && a3Qty >= 14) {
-    const a3Items = cart.filter(item => item.size === "A3");
-    let a3Count = 0, a3Extra = 0;
-    for (let item of a3Items) {
-      if (a3Count + item.quantity <= 14) {
-        a3Count += item.quantity;
-      } else {
-        a3Extra += (a3Count + item.quantity - 14) * item.price;
-        a3Count = 14;
-      }
-    }
-    const others = cart.filter(item => item.size !== "A3")
-                       .reduce((sum, item) => sum + item.price * item.quantity, 0);
-    grandTotal = 500 + a3Extra + others;
-    freeNote = "🎁 14 A3 posters for ₹500 (4 FREE)";
-    offerMsg.textContent = "";
-    showToast(freeNote);
-  } 
-  else if (selectedOffer !== "") {
-    offerMsg.textContent = "⚠️ Offer not applicable. Add more posters.";
-    freeNote = "";
-  }
-
-  subtotalBox.textContent = `₹${subtotal}`;
-  grandTotalBox.textContent = `₹${grandTotal}`;
-  discountBox.style.display = discount > 0 ? "flex" : "none";
-  discountValue.textContent = `– ₹${discount}`;
-  freeMsg.textContent = freeNote;
-}
-
-function renderCart() {
-  const container = document.getElementById("cart-items");
-  container.innerHTML = "";
-  cart.forEach((item, index) => {
-    const itemTotal = item.price * item.quantity;
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `
-      <img src="${item.img}" alt="${item.title}" class="cart-item-img"/>
-      <div class="cart-details">
-        <p><strong>${item.title}</strong> (${item.id})</p>
-        <p>Size: ${item.size}</p>
-        <p>Quantity: ${item.quantity}</p>
-        <p>Price: ₹${item.price} × ${item.quantity} = ₹${itemTotal}</p>
-        <button onclick="removeFromCart(${index})">Remove ✖</button>
-      </div>
-    `;
-    container.appendChild(div);
-  });
-
-  document.getElementById("cart-count-nav").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-  populateOfferOptions();
-  updateOfferSection();
-}
-
-function populateOfferOptions() {
-  const offerSelect = document.getElementById("offer-select");
-  offerSelect.innerHTML = `<option value="">-- Select an offer --</option>`;
-  if (getQtyBySize("A4") >= 10) {
-    offerSelect.innerHTML += `
-      <option value="a4_discount">10 A4 for ₹300 (₹100 OFF)</option>
-      <option value="a4_free">14 A4 for ₹400 (4 FREE)</option>`;
-  }
-  if (getQtyBySize("A3") >= 10) {
-    offerSelect.innerHTML += `
-      <option value="a3_discount">10 A3 for ₹400 (₹100 OFF)</option>
-      <option value="a3_free">14 A3 for ₹500 (4 FREE)</option>`;
-  }
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-}
-
-function checkoutCart() {
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  const offer = document.getElementById("offer-select").value;
-  const a4Qty = getQtyBySize("A4");
-  const a3Qty = getQtyBySize("A3");
-  let discount = 0;
-  let freeNote = "";
-
-  if (offer === "a4_discount" && a4Qty >= 10) {
-    discount = 100;
-    freeNote = "💸 ₹100 OFF on A4 posters";
-  } else if (offer === "a4_free" && a4Qty >= 14) {
-    freeNote = "🎁 14 A4 posters for ₹400 (4 FREE)";
-  } else if (offer === "a3_discount" && a3Qty >= 10) {
-    discount = 100;
-    freeNote = "💸 ₹100 OFF on A3 posters";
-  } else if (offer === "a3_free" && a3Qty >= 14) {
-    freeNote = "🎁 14 A3 posters for ₹500 (4 FREE)";
-  }
-
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  let grandTotal = subtotal - discount;
-
-  if (offer === "a4_free" && a4Qty >= 14) {
-    let extra = 0, count = 0;
-    cart.filter(i => i.size === "A4").forEach(i => {
-      if (count + i.quantity <= 14) {
-        count += i.quantity;
-      } else {
-        extra += (count + i.quantity - 14) * i.price;
-        count = 14;
-      }
-    });
-    grandTotal = 400 + extra + cart.filter(i => i.size !== "A4").reduce((sum, i) => sum + i.price * i.quantity, 0);
-  }
-
-  if (offer === "a3_free" && a3Qty >= 14) {
-    let extra = 0, count = 0;
-    cart.filter(i => i.size === "A3").forEach(i => {
-      if (count + i.quantity <= 14) {
-        count += i.quantity;
-      } else {
-        extra += (count + i.quantity - 14) * i.price;
-        count = 14;
-      }
-    });
-    grandTotal = 500 + extra + cart.filter(i => i.size !== "A3").reduce((sum, i) => sum + i.price * i.quantity, 0);
-  }
-
-  const items = cart.map(i => `• ${i.title} (${i.id}) - ${i.size} x ${i.quantity} = ₹${i.price * i.quantity}`).join("%0A");
-  let message = `Hey! I want to order these posters:%0A${items}`;
-
-  if (offer) message += `%0A%0A🎯 Offer Selected: ${offer}`;
-  if (freeNote) message += `%0A${freeNote}`;
-  message += `%0A%0A🧾 Grand Total: ₹${grandTotal}`;
-
-  window.location.href = `https://wa.me/917448467342?text=${encodeURIComponent(message)}`;
-}
-
-function showToast(message, color = "#00e676") {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.style.color = color;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 3000);
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  renderCart();
-  document.getElementById("offer-select").addEventListener("change", updateOfferSection);
-});
-</script>
-  
+  <script src="script.js"></script>
 </body>
 </html>
