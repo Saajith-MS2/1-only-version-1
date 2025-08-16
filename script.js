@@ -378,3 +378,117 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+// Show offer explanation modal on page load
+window.addEventListener("load", function() {
+  setTimeout(function() {
+    document.getElementById("offerExplanationModal").style.display = "block";
+  }, 1000); // Delay for 1 second
+});
+
+// Close offer modal
+function closeOfferModal() {
+  document.getElementById("offerExplanationModal").style.display = "none";
+}
+
+// Close modal if clicked outside
+window.onclick = function(event) {
+  const modal = document.getElementById("offerExplanationModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+// Update offer summary box
+function updateOfferSummary() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const a4Items = cart.filter(item => item.size === "A4");
+  const a3Items = cart.filter(item => item.size === "A3");
+
+  let a4Qty = a4Items.reduce((sum, item) => sum + item.quantity, 0);
+  let a3Qty = a3Items.reduce((sum, item) => sum + item.quantity, 0);
+
+  let freeA4 = Math.floor(a4Qty / 10) * 4;
+  let freeA3 = Math.floor(a3Qty / 10) * 4;
+
+  if (a4Qty >= 10 || a3Qty >= 10) {
+    document.getElementById("offerSummaryBox").style.display = "block";
+
+    // Fill offer items table
+    const offerItems = document.getElementById("offerItems");
+    offerItems.innerHTML = "";
+
+    a4Items.forEach(item => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item.title}</td>
+        <td>${item.size}</td>
+        <td>${item.quantity}</td>
+        <td>₹${item.price}</td>
+        <td>₹${item.price * item.quantity}</td>
+        <td>${Math.floor(item.quantity / 10) * 4}</td>
+      `;
+      offerItems.appendChild(row);
+    });
+
+    a3Items.forEach(item => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item.title}</td>
+        <td>${item.size}</td>
+        <td>${item.quantity}</td>
+        <td>₹${item.price}</td>
+        <td>₹${item.price * item.quantity}</td>
+        <td>${Math.floor(item.quantity / 10) * 4}</td>
+      `;
+      offerItems.appendChild(row);
+    });
+
+    // Update totals
+    const totalPosters = a4Qty + a3Qty + freeA4 + freeA3;
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const savings = (freeA4 + freeA3) * 40; // Assuming ₹40 per poster
+
+    document.getElementById("totalPosters").textContent = totalPosters;
+    document.getElementById("freePosters").textContent = freeA4 + freeA3;
+    document.getElementById("subtotal").textContent = subtotal;
+    document.getElementById("grandTotal").textContent = subtotal;
+    document.getElementById("youSaved").textContent = savings;
+  }
+}
+
+// Call this function when the cart is updated
+document.addEventListener("DOMContentLoaded", function() {
+  updateOfferSummary();
+  // Your existing cart initialization code
+});
+// Show offer explanation modal on page load
+window.addEventListener("load", function() {
+  setTimeout(function() {
+    document.getElementById("offerExplanationModal").style.display = "block";
+  }, 1000);
+});
+
+// Close offer modal
+function closeOfferModal() {
+  document.getElementById("offerExplanationModal").style.display = "none";
+}
+
+// Close modal if clicked outside
+window.onclick = function(event) {
+  const modal = document.getElementById("offerExplanationModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+// Update offer summary box
+function updateOfferSummary() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  // Rest of the function from previous response
+}
+
+// Call this when the page loads
+document.addEventListener("DOMContentLoaded", function() {
+  updateOfferSummary();
+  // Your existing cart initialization code
+});

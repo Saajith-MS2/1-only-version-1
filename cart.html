@@ -5,25 +5,415 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart - 1&ONLY Posters</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Base Styles */
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    .cart-link {
+      color: #00bcf5;
+      font-weight: bold;
+    }
+
+    /* Cart Items */
+    #cart-items {
+      margin: 20px 0;
+    }
+
+    .cart-item {
+      display: flex;
+      background: #1a1a1a;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .cart-item-img {
+      width: 100px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .cart-details {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .cart-details p {
+      margin: 5px 0;
+      color: #ddd;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .quantity-btn {
+      background: #333;
+      color: #fff;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quantity-input {
+      width: 50px;
+      text-align: center;
+      background: #222;
+      color: #fff;
+      border: none;
+      margin: 0 10px;
+      padding: 5px;
+    }
+
+    .cart-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .remove-btn {
+      background: #ff5252;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Offer Layout */
+    .offer-layout {
+      background: #121212;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .offer-layout h2 {
+      color: #00ff88;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .poster-summary {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    .progress-track {
+      background: #444;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #00c853;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .styled-select {
+      padding: 10px;
+      background: #1f1f1f;
+      color: white;
+      border-radius: 6px;
+      border: 1px solid #444;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    /* Billing Table */
+    .billing-box {
+      background: #1f1f1f;
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .billing-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .billing-table th,
+    .billing-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    .billing-table th {
+      color: #00bcf5;
+      font-weight: bold;
+    }
+
+    .poster-img {
+      width: 50px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 4px;
+      background: #f5f5f5;
+      padding: 5px;
+      border: 1px solid #333;
+    }
+
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      color: #ddd;
+    }
+
+    .grand-total {
+      font-weight: bold;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    /* Checkout Button */
+    .checkout-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 12px 20px;
+      background: #00c853;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    /* Offer Modal - Responsive */
+    .offer-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      animation: fadeIn 0.3s;
+      overflow-y: auto;
+    }
+
+    .offer-modal-content {
+      background: #1a1a2e;
+      margin: 10% auto;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 768px) {
+      .offer-modal-content {
+        margin: 5% auto;
+        padding: 20px;
+        width: 95%;
+        max-width: none;
+      }
+
+      .offer-modal-header h2 {
+        font-size: 1.4rem;
+      }
+
+      .offer-description p {
+        font-size: 1rem;
+      }
+
+      .offer-highlight {
+        padding: 12px;
+      }
+
+      .offer-cta-button {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+
+    .offer-modal h2 {
+      color: #00ff88;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    .offer-description {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .offer-highlight {
+      background: rgba(0, 188, 245, 0.2);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #00bcf5;
+      text-align: left;
+    }
+
+    .offer-cta-button {
+      background: #00bcf5;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 20px auto 0;
+      display: block;
+    }
+
+    .offer-cta-button:hover {
+      background: #00a2d9;
+      transform: translateY(-2px);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1e1e1e;
+      color: #00e676;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(20px);
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body class="cart-page">
   <header>
-  <div class="logo">1&ONLY</div>
-  <nav>
-    <a href="home.html">Home</a>
-    <a href="#">Categories</a>
-    <a href="#">Custom</a>
-    <a href="cart.html" class="cart-link">
-      🛒 Cart <span class="cart-count">0</span>
-    </a>
-  </nav>
-</header>
-
+    <div class="logo">1&ONLY</div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="#">Categories</a>
+      <a href="#">Custom</a>
+      <a href="cart.html" class="cart-link">
+        🛒 Cart <span class="cart-count">0</span>
+      </a>
+    </nav>
   </header>
+
+  <!-- Offer Explanation Popup -->
+  <div id="offerModal" class="offer-modal">
+    <div class="offer-modal-content">
+      <span class="close-btn" onclick="closeOfferModal()">&times;</span>
+      <h2>🎉 Special Offer: Buy 10, Get 4 FREE!</h2>
+
+      <div class="offer-description">
+        <p>Order <strong>10 posters of the same size (A3 or A4)</strong> and get <strong>4 extra posters absolutely FREE</strong>!</p>
+      </div>
+
+      <div class="offer-highlight">
+        <p>💡 <strong>Example:</strong> Buy 10 A4 posters for ₹400 and get 4 A4 posters FREE!</p>
+        <p>💰 <strong>You save:</strong> ₹160 on this example!</p>
+      </div>
+
+      <p>This offer applies automatically when you add 10 or more posters of the same size to your cart.</p>
+
+      <button class="offer-cta-button" onclick="closeOfferModal()">Got It!</button>
+    </div>
+  </div>
+
   <div id="cart-items"></div>
+
   <section class="offer-layout">
-    <h2>🎯 Special Offers</h2>
+    <h2>🎉 Special Offers</h2>
     <div class="poster-summary">
       <span>Total Posters: <span id="poster-count">0</span></span>
       <span><span id="offer-message">No offer selected.</span></span>
@@ -35,7 +425,23 @@
       <option value="">-- Select an offer --</option>
     </select>
     <div id="free-poster-message" style="color: #00c853;"></div>
+
     <div class="billing-box">
+      <table class="billing-table">
+        <thead>
+          <tr>
+            <th>Poster</th>
+            <th>Image</th>
+            <th>Size</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="billing-items">
+          <!-- Filled by JavaScript -->
+        </tbody>
+      </table>
       <div class="bill-row">
         <span>Subtotal</span>
         <span id="subtotal-value">₹0</span>
@@ -51,12 +457,344 @@
       </div>
     </div>
   </section>
-  <div style="text-align: right; margin-top: 20px;">
-    <button onclick="checkoutCart()" style="padding: 10px 20px; background: #00c853; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer;">
-      Checkout on WhatsApp
-    </button>
-  </div>
+
+  <button class="checkout-btn" onclick="checkoutCart()">Checkout on WhatsApp</button>
+
   <div id="toast" class="toast"></div>
-  <script src="script.js"></script>
+
+  <script>
+    // Initialize cart from localStorage or empty array
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Show offer modal on page load
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('offerModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }, 1500);
+    });
+
+    // Close offer modal
+    function closeOfferModal() {
+      document.getElementById('offerModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('offerModal');
+      if (event.target == modal) {
+        closeOfferModal();
+      }
+    };
+
+    // Function to update cart count in UI
+    function updateCartCount() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.querySelectorAll(".cart-count").forEach(el => {
+        el.textContent = totalItems;
+      });
+    }
+
+    // Function to render cart items with quantity controls
+    function renderCart() {
+      const container = document.getElementById("cart-items");
+      if (!container) return;
+
+      container.innerHTML = "";
+      if (cart.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: #ccc;">Your cart is empty.</p>`;
+      } else {
+        cart.forEach((item, index) => {
+          const itemTotal = item.price * item.quantity;
+          const div = document.createElement("div");
+          div.className = "cart-item";
+          div.innerHTML = `
+            <img src="${item.img}" alt="${item.title}" class="cart-item-img"/>
+            <div class="cart-details">
+              <p><strong>${item.title}</strong></p>
+              <p>Size: ${item.size}</p>
+              <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+                <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
+              </div>
+              <p>Price: ₹${item.price} × ${item.quantity} = ₹${itemTotal}</p>
+              <div class="cart-actions">
+                <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+              </div>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      }
+      updateCartCount();
+      updateBillingTable();
+      populateOfferOptions();
+      updateOfferSection();
+    }
+
+    // Function to increase quantity
+    function increaseQuantity(index) {
+      cart[index].quantity++;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+      showToast("Quantity updated!", "#00e676");
+    }
+
+    // Function to decrease quantity
+    function decreaseQuantity(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+        showToast("Quantity updated!", "#00e676");
+      }
+    }
+
+    // Function to update quantity from input
+    function updateQuantity(index, value) {
+      const newQty = parseInt(value);
+      if (newQty > 0) {
+        cart[index].quantity = newQty;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+    }
+
+    // Function to remove item from cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+      showToast("Item removed from cart", "#ff5252");
+    }
+
+    // Function to update billing table with poster images
+    function updateBillingTable() {
+      const billingItems = document.getElementById("billing-items");
+      if (!billingItems) return;
+
+      billingItems.innerHTML = "";
+      let subtotal = 0;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.title}</td>
+          <td><img src="${item.img}" class="poster-img" alt="${item.title}"></td>
+          <td>${item.size}</td>
+          <td>${item.quantity}</td>
+          <td>₹${item.price}</td>
+          <td>₹${itemTotal}</td>
+        `;
+        billingItems.appendChild(row);
+      });
+
+      document.getElementById("subtotal-value").textContent = `₹${subtotal}`;
+      document.getElementById("grand-total-value").textContent = `₹${subtotal}`;
+    }
+
+    // Function to get quantity by size
+    function getQtyBySize(size) {
+      return cart.filter(item => item.size === size)
+                .reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    // Function to update offer section
+    function updateOfferSection() {
+      const offerSelect = document.getElementById("offer-select");
+      const progress = document.getElementById("offer-progress");
+      const posterCount = document.getElementById("poster-count");
+      const offerMsg = document.getElementById("offer-message");
+      const freeMsg = document.getElementById("free-poster-message");
+      const subtotalBox = document.getElementById("subtotal-value");
+      const discountBox = document.getElementById("discount-line");
+      const discountValue = document.getElementById("discount-value");
+      const grandTotalBox = document.getElementById("grand-total-value");
+
+      if (!offerSelect) return;
+
+      let a4Qty = getQtyBySize("A4");
+      let a3Qty = getQtyBySize("A3");
+      let totalQty = a4Qty + a3Qty;
+      posterCount.textContent = totalQty;
+
+      const percent = Math.min((Math.max(a3Qty, a4Qty) / 10) * 100, 100);
+      progress.style.width = percent + "%";
+
+      let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      let grandTotal = subtotal;
+      let discount = 0;
+      let freeNote = "";
+
+      const selectedOffer = offerSelect.value;
+      offerMsg.textContent = selectedOffer ? "" : "No offer selected.";
+
+      if (selectedOffer === "a4_discount" && a4Qty >= 10) {
+        discount = 100;
+        grandTotal = subtotal - discount;
+        offerMsg.textContent = "💸 ₹100 OFF on A4 posters applied.";
+        freeNote = "💸 ₹100 OFF on A4 posters";
+        showToast(freeNote, "#00e676");
+      }
+      else if (selectedOffer === "a4_free" && a4Qty >= 14) {
+        const a4Items = cart.filter(item => item.size === "A4");
+        let a4Count = 0, a4Extra = 0;
+        a4Items.forEach(item => {
+          if (a4Count + item.quantity <= 14) a4Count += item.quantity;
+          else a4Extra += (a4Count + item.quantity - 14) * item.price;
+        });
+        const others = cart.filter(item => item.size !== "A4")
+                          .reduce((sum, item) => sum + item.price * item.quantity, 0);
+        grandTotal = 400 + a4Extra + others;
+        freeNote = "🎁 14 A4 posters for ₹400 (4 FREE)";
+        showToast(freeNote, "#00e676");
+      }
+      else if (selectedOffer === "a3_discount" && a3Qty >= 10) {
+        discount = 100;
+        grandTotal = subtotal - discount;
+        offerMsg.textContent = "💸 ₹100 OFF on A3 posters applied.";
+        freeNote = "💸 ₹100 OFF on A3 posters";
+        showToast(freeNote, "#00e676");
+      }
+      else if (selectedOffer === "a3_free" && a3Qty >= 14) {
+        const a3Items = cart.filter(item => item.size === "A3");
+        let a3Count = 0, a3Extra = 0;
+        a3Items.forEach(item => {
+          if (a3Count + item.quantity <= 14) a3Count += item.quantity;
+          else a3Extra += (a3Count + item.quantity - 14) * item.price;
+        });
+        const others = cart.filter(item => item.size !== "A3")
+                          .reduce((sum, item) => sum + item.price * item.quantity, 0);
+        grandTotal = 500 + a3Extra + others;
+        freeNote = "🎁 14 A3 posters for ₹500 (4 FREE)";
+        showToast(freeNote, "#00e676");
+      }
+      else if (selectedOffer) {
+        offerMsg.textContent = "⚠️ Offer not applicable. Add more posters.";
+        freeNote = "";
+      }
+
+      subtotalBox.textContent = `₹${subtotal}`;
+      grandTotalBox.textContent = `₹${grandTotal}`;
+      discountBox.style.display = discount > 0 ? "flex" : "none";
+      discountValue.textContent = `– ₹${discount}`;
+      freeMsg.textContent = freeNote;
+    }
+
+    // Function to populate offer dropdown
+    function populateOfferOptions() {
+      const offerSelect = document.getElementById("offer-select");
+      if (!offerSelect) return;
+
+      offerSelect.innerHTML = `<option value="">-- Select an offer --</option>`;
+      if (getQtyBySize("A4") >= 10) {
+        offerSelect.innerHTML += `
+          <option value="a4_discount">10 A4 for ₹300 (₹100 OFF)</option>
+          <option value="a4_free">14 A4 for ₹400 (4 FREE)</option>
+        `;
+      }
+      if (getQtyBySize("A3") >= 10) {
+        offerSelect.innerHTML += `
+          <option value="a3_discount">10 A3 for ₹400 (₹100 OFF)</option>
+          <option value="a3_free">14 A3 for ₹500 (4 FREE)</option>
+        `;
+      }
+    }
+
+    // Function to show toast notification
+    function showToast(message, color = "#00e676") {
+      const toast = document.getElementById("toast");
+      if (!toast) return;
+
+      toast.textContent = message;
+      toast.style.color = color.includes("#") ? color : "#00e676";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    // Function to checkout
+    function checkoutCart() {
+      if (cart.length === 0) {
+        showToast("Your cart is empty!", "#ff5252");
+        return;
+      }
+
+      const offer = document.getElementById("offer-select").value;
+      const a4Qty = getQtyBySize("A4");
+      const a3Qty = getQtyBySize("A3");
+      let discount = 0;
+      let freeNote = "";
+      let grandTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+      // Apply offers
+      if (offer === "a4_discount" && a4Qty >= 10) {
+        discount = 100;
+        freeNote = "💸 ₹100 OFF on A4 posters";
+        grandTotal -= discount;
+      }
+      else if (offer === "a4_free" && a4Qty >= 14) {
+        freeNote = "🎁 14 A4 posters for ₹400 (4 FREE)";
+        let extra = 0, count = 0;
+        cart.filter(i => i.size === "A4").forEach(i => {
+          if (count + i.quantity <= 14) count += i.quantity;
+          else extra += (count + i.quantity - 14) * i.price;
+        });
+        grandTotal = 400 + extra + cart.filter(i => i.size !== "A4")
+                                      .reduce((sum, i) => sum + i.price * i.quantity, 0);
+      }
+      else if (offer === "a3_discount" && a3Qty >= 10) {
+        discount = 100;
+        freeNote = "💸 ₹100 OFF on A3 posters";
+        grandTotal -= discount;
+      }
+      else if (offer === "a3_free" && a3Qty >= 14) {
+        freeNote = "🎁 14 A3 posters for ₹500 (4 FREE)";
+        let extra = 0, count = 0;
+        cart.filter(i => i.size === "A3").forEach(i => {
+          if (count + i.quantity <= 14) count += i.quantity;
+          else extra += (count + i.quantity - 14) * i.price;
+        });
+        grandTotal = 500 + extra + cart.filter(i => i.size !== "A3")
+                                      .reduce((sum, i) => sum + i.price * i.quantity, 0);
+      }
+
+      // Build WhatsApp message
+      let itemsMessage = "Hey! I want to order these posters:\n\n";
+      itemsMessage += "Sl.No | Product Name               | Qty | Rate | Total\n";
+      itemsMessage += "------|----------------------------|-----|------|------\n";
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        itemsMessage +=
+          `${(index + 1).toString().padEnd(5)} | ` +
+          `${item.title.padEnd(26)} | ` +
+          `${item.quantity.toString().padEnd(3)} | ` +
+          `₹${item.price.toString().padEnd(4)} | ` +
+          `₹${itemTotal}\n`;
+      });
+
+      if (offer) {
+        const offerText = document.querySelector(`#offer-select option[value="${offer}"]`).textContent;
+        itemsMessage += `\n🎯 Offer: ${offerText}\n`;
+      }
+      if (freeNote) itemsMessage += `${freeNote}\n`;
+      itemsMessage += `\n🧾 Grand Total: ₹${grandTotal}`;
+
+      // Encode for WhatsApp URL
+      const encodedMessage = encodeURIComponent(itemsMessage);
+      window.location.href = `https://wa.me/917448467342?text=${encodedMessage}`;
+    }
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", function() {
+      renderCart();
+      document.getElementById("offer-select").addEventListener("change", updateOfferSection);
+    });
+  </script>
 </body>
 </html>
